@@ -1,0 +1,79 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Data.SqlClient;
+using OsPortal;
+
+/// <summary>
+/// Summary description for clsSanPham
+/// </summary>
+public class clsSanPham
+{
+    public clsSanPham()
+    {
+        //
+        // TODO: Add constructor logic here
+        //
+    }
+
+    static string strClassName = "clsSanPham";
+
+    /// <summary>
+    /// Lấy danh sách sản phẩm
+    /// </summary>
+    /// <returns></returns>
+    public static DataTable fncGetListSP(int iCURRPAGE, int iPAGESIZE,int iSP_ID, string strSP_TenSanPham, float fSP_DonGia,int iDM_ID, int iNCC_ID)
+    {
+        try
+        {
+            //Gọi Procedure đã viết
+            DataTable tblResult = oSqlDataHelper.sExecuteDataTable("SANPHAM_FND", new SqlParameter[] {
+                                                   //Truyền tham số
+            new SqlParameter("@P_CURRPAGE", iCURRPAGE)
+                   ,new SqlParameter("@P_PAGESIZE", iPAGESIZE)
+                   ,new SqlParameter("@P_SP_ID", iSP_ID)
+                   ,new SqlParameter("@P_SP_TENSANPHAM", strSP_TenSanPham)
+                   ,new SqlParameter("@P_SP_DONGIA", fSP_DonGia)
+                   ,new SqlParameter("@P_DM_ID", iDM_ID)
+                   ,new SqlParameter("@P_NCC_ID", iNCC_ID)
+            });
+
+            //Kiểm tra các trường hợp null
+            if (tblResult == null) return null;
+            if (tblResult.Rows.Count <= 0) return null;
+
+            //Trả cái bảng về thôi
+            return tblResult;
+        }
+        catch (Exception ex)
+        {
+            //Ghi log nếu lỗi
+            OsPortal.oFileHelper.WriteLogErr(strClassName, "fncGetListSP", ex.ToString());
+            return new DataTable(); 
+        }
+    }
+
+    public static DataTable fncChiTietSP(int iSP_ID)
+    {
+        try
+        {
+            DataTable item = oSqlDataHelper.sExecuteDataTable("SanPhamCT", new SqlParameter[]
+            {
+                new SqlParameter("P_SP_ID",iSP_ID)
+            });
+            //Kiểm tra các trường hợp null
+            if (item == null) return null;
+            if (item.Rows.Count <= 0) return null;
+
+            //Trả cái bảng về thôi
+            return item;
+        }
+        catch (Exception ex)
+        {
+            OsPortal.oFileHelper.WriteLogErr(strClassName, "fncChiTietSP", ex.ToString());
+            return new DataTable(); 
+        }
+    }
+}

@@ -13,6 +13,11 @@ namespace web.Controllers
             return View();
         }
 
+        public ActionResult Caterogy()
+        {
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
