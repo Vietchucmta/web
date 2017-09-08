@@ -9,11 +9,11 @@
 }());
 
 (function () {
-    $('myCarouselWrapper').carousel({ interval: 3600 });
+    $('#myCarouselWrapper').carousel({ interval: 3600 });
 }());
 
 (function () {
-    $('Link').carousel({ interval: 3600 });
+    $('#Link').carousel({ interval: 3600 });
 }());
 
 (function () {
